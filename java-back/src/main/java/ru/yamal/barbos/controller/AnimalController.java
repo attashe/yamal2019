@@ -5,7 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.yamal.barbos.dto.AnimalDto;
-import ru.yamal.barbos.dto.SterilizationDto;
+import ru.yamal.barbos.dto.DateDto;
 import ru.yamal.barbos.dto.UpdateAnimalDto;
 import ru.yamal.barbos.service.AnimalService;
 import ru.yamal.barbos.service.PhotoStorageService;
@@ -43,8 +43,13 @@ public class AnimalController {
     }
 
     @PutMapping("/{id}/sterilize")
-    public AnimalDto sterilize(@PathVariable("id") Long id, @RequestBody SterilizationDto sterilizationDto) {
-        return animalService.sterilize(id, sterilizationDto);
+    public AnimalDto sterilize(@PathVariable("id") Long id, @RequestBody DateDto dateDto) {
+        return animalService.sterilize(id, dateDto);
+    }
+
+    @PutMapping("/{id}/vaccinate/{vacineId}")
+    public AnimalDto vaccinate(@PathVariable("id") Long id, @PathVariable("vacineId") Long vaccineId, @RequestBody DateDto dateDto) {
+        return animalService.vaccinate(id, vaccineId, dateDto);
     }
 
     @PostMapping("/{id}/photo")

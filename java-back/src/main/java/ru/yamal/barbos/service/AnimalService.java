@@ -10,9 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yamal.barbos.domain.model.AnimalEntity;
+import ru.yamal.barbos.domain.model.VaccinationEntity;
+import ru.yamal.barbos.domain.model.VaccineEntity;
 import ru.yamal.barbos.domain.repository.AnimalRepository;
+import ru.yamal.barbos.domain.repository.VaccinationRepository;
+import ru.yamal.barbos.domain.repository.VaccineRepository;
 import ru.yamal.barbos.dto.AnimalDto;
-import ru.yamal.barbos.dto.SterilizationDto;
+import ru.yamal.barbos.dto.DateDto;
 import ru.yamal.barbos.dto.UpdateAnimalDto;
 import ru.yamal.barbos.exception.CustomException;
 
@@ -26,6 +30,8 @@ import java.util.stream.Collectors;
 public class AnimalService {
 
     private final AnimalRepository animalRepository;
+    private final VaccineRepository vaccineRepository;
+    private final VaccinationRepository vaccinationRepository;
     private final EntityManagerFactory entityManagerFactory;
     private final ModelMapper modelMapper;
 
@@ -77,11 +83,18 @@ public class AnimalService {
         return modelMapper.map(saved, AnimalDto.class);
     }
 
-    public AnimalDto sterilize(Long id, SterilizationDto sterilizationDto) {
+    public AnimalDto sterilize(Long id, DateDto dateDto) {
         AnimalEntity animalEntity = animalRepository.findById(id).orElseThrow(() -> new CustomException("Not found", HttpStatus.NOT_FOUND));
         animalEntity.setSterilized(true);
-        animalEntity.setSterilizationDate(sterilizationDto.getSterilizationDate());
+        animalEntity.setSterilizationDate(dateDto.getDate());
         AnimalEntity saved = animalRepository.save(animalEntity);
         return modelMapper.map(saved, AnimalDto.class);
+    }
+
+    public AnimalDto vaccinate(Long id, Long vaccineId, DateDto dateDto) {
+        AnimalEntity animalEntity = animalRepository.findById(id).orElseThrow(() -> new CustomException("Not found", HttpStatus.NOT_FOUND));
+        VaccineEntity vaccineEntity = vaccineRepository.findById(vaccineId).orElseThrow(() -> new CustomException("Not found", HttpStatus.NOT_FOUND));
+        VaccinationEntity saved = vaccinationRepository.save(new VaccinationEntity(vaccineEntity, animalEntity, dateDto.getDate()));
+        return modelMapper.map(saved.getAnimal(), AnimalDto.class);
     }
 }

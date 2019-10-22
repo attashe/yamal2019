@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SterilizationDto {
+public class DateDto {
 
-    private LocalDate sterilizationDate;
+    private LocalDate date;
 }
