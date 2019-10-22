@@ -13,14 +13,14 @@
 <div class="wrapper fadeInDown">
     <div id="formContent">
         <div class="fadeIn first">
-            <p>Authentication form</p>
+            <p>Войдите в систему по номеру телефона</p>
         </div>
 
         <!-- Login Form -->
         <form method="POST" action="/web/login">
             <input type="text" id="p" class="fadeIn second" name="phoneNumber" placeholder="phoneNumber">
             <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
-            <input type="submit" class="fadeIn fourth" value="Log In">
+            <input type="submit" class="fadeIn fourth" value="Войти">
         </form>
 
 
