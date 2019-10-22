@@ -3,15 +3,21 @@ package ru.yamal.barbos.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
+import ru.yamal.barbos.domain.model.Role;
 import ru.yamal.barbos.dto.LoginDto;
-import ru.yamal.barbos.dto.UserRegistrationDto;
 import ru.yamal.barbos.dto.UserDto;
+import ru.yamal.barbos.dto.UserRegistrationDto;
+import ru.yamal.barbos.exception.CustomException;
 import ru.yamal.barbos.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,9 +34,12 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String signup(@ApiParam("Signup User") @RequestBody UserRegistrationDto user) {
-        return userService.signup(user);
+    public String signup(@ApiParam("Signup User") @RequestBody UserRegistrationDto user, Principal principal) {
+        if ((!user.getRoles().contains(Role.ROLE_ADMIN) && !user.getRoles().contains(Role.ROLE_HELPER))
+                || ((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getAuthorities().contains(Role.ROLE_ADMIN)) {
+            return userService.signup(user);
+        }
+        throw new CustomException("Not allowed", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @DeleteMapping(value = "/{username}")
