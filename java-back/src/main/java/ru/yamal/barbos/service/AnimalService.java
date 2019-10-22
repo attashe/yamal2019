@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yamal.barbos.domain.model.AnimalEntity;
 import ru.yamal.barbos.domain.repository.AnimalRepository;
 import ru.yamal.barbos.dto.AnimalDto;
+import ru.yamal.barbos.dto.UpdateAnimalDto;
 import ru.yamal.barbos.exception.CustomException;
 
 import javax.persistence.EntityManagerFactory;
@@ -42,7 +43,7 @@ public class AnimalService {
         return modelMapper.map(animalEntity, AnimalDto.class);
     }
 
-    public AnimalDto update(AnimalDto animalDto) {
+    public AnimalDto update(UpdateAnimalDto animalDto) {
         AnimalEntity animalEntity = animalRepository.findById(animalDto.getId()).orElseThrow(() -> new CustomException("Not found", HttpStatus.NOT_FOUND));
         modelMapper.map(animalDto, animalEntity);
         AnimalEntity saved = animalRepository.save(animalEntity);

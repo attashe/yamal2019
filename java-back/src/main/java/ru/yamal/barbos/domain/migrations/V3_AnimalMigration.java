@@ -9,17 +9,18 @@ import ru.yamal.barbos.domain.model.AnimalType;
 import ru.yamal.barbos.domain.repository.AnimalRepository;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 @RequiredArgsConstructor
 @Transactional
 @Component
-public class V2_AnimalMigration implements Migration {
+public class V3_AnimalMigration implements Migration {
 
     private final AnimalRepository animalRepository;
 
     @Override
     public void migrate() {
-        AnimalEntity boris = animalRepository.save(new AnimalEntity("Boris", true, AnimalType.CAT, LocalDate.now(), LocalDate.now(), AnimalStatus.IN_SHELTER, null, false, null, "В чем секрет кота Бориса? Китикет - это ЭНЕРГИЯ КОТА!", Arrays.asList("1", "2")));
+        AnimalEntity boris = animalRepository.save(new AnimalEntity("Boris", true, AnimalType.CAT, LocalDate.now(), LocalDate.now(), AnimalStatus.IN_SHELTER, null, false, null, "В чем секрет кота Бориса? Китикет - это ЭНЕРГИЯ КОТА!", new ArrayList<>(), new HashSet<>()));
     }
 }

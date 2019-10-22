@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.yamal.barbos.dto.AnimalDto;
+import ru.yamal.barbos.dto.UpdateAnimalDto;
 import ru.yamal.barbos.service.AnimalService;
 import ru.yamal.barbos.service.PhotoStorageService;
 
@@ -35,7 +36,7 @@ public class AnimalController {
     }
 
     @PutMapping("/{id}")
-    public AnimalDto getById(@PathVariable("id") Long id, @RequestBody AnimalDto animalDto) {
+    public AnimalDto getById(@PathVariable("id") Long id, @RequestBody UpdateAnimalDto animalDto) {
         animalDto.setId(id);
         return animalService.update(animalDto);
     }

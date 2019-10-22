@@ -1,21 +1,21 @@
 package ru.yamal.barbos.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = {"vaccinations"})
+@ToString(exclude = {"vaccinations"})
 @Entity
 public class AnimalEntity extends BaseEntity<Long> {
 
@@ -51,4 +51,7 @@ public class AnimalEntity extends BaseEntity<Long> {
 
     @ElementCollection
     private List<String> photoIds = new ArrayList<>();
+
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
+    private Set<VaccinationEntity> vaccinations = new HashSet<>();
 }
