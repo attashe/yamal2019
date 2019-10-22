@@ -14,8 +14,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Audited
 @Data
-@EqualsAndHashCode(callSuper = true, exclude = {"vaccinations"})
-@ToString(exclude = {"vaccinations"})
+@EqualsAndHashCode(callSuper = true, exclude = {"vaccinations", "diseases"})
+@ToString(exclude = {"vaccinations", "diseases"})
 @Entity
 public class AnimalEntity extends BaseEntity<Long> {
 
@@ -54,4 +54,7 @@ public class AnimalEntity extends BaseEntity<Long> {
 
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
     private Set<VaccinationEntity> vaccinations = new HashSet<>();
+
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
+    private Set<DiseaseEntity> diseases = new HashSet<>();
 }

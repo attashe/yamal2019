@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.yamal.barbos.dto.AnimalDto;
 import ru.yamal.barbos.dto.DateDto;
+import ru.yamal.barbos.dto.DiseaseDto;
 import ru.yamal.barbos.dto.UpdateAnimalDto;
 import ru.yamal.barbos.service.AnimalService;
 import ru.yamal.barbos.service.PhotoStorageService;
@@ -62,5 +63,10 @@ public class AnimalController {
     public AnimalDto removePhoto(@PathVariable("id") Long id, @PathVariable("photo") String photo) {
         photoStorageService.delete(photo);
         return animalService.removePhoto(id, photo);
+    }
+
+    @PostMapping("/{id}/disease")
+    public AnimalDto addDisease(@PathVariable("id") Long id, @RequestBody DiseaseDto diseaseDto){
+        return animalService.addDisease(id, diseaseDto);
     }
 }

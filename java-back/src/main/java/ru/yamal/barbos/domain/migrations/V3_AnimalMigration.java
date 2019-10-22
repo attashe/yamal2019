@@ -21,6 +21,6 @@ public class V3_AnimalMigration implements Migration {
 
     @Override
     public void migrate() {
-        AnimalEntity boris = animalRepository.save(new AnimalEntity("Boris", true, AnimalType.CAT, LocalDate.now(), LocalDate.now(), AnimalStatus.IN_SHELTER, null, false, null, "В чем секрет кота Бориса? Китикет - это ЭНЕРГИЯ КОТА!", new ArrayList<>(), new HashSet<>()));
+        AnimalEntity boris = animalRepository.save(new AnimalEntity("Boris", true, AnimalType.CAT, LocalDate.now(), LocalDate.now(), AnimalStatus.IN_SHELTER, null, false, null, "В чем секрет кота Бориса? Китикет - это ЭНЕРГИЯ КОТА!", new ArrayList<>(), new HashSet<>(), new HashSet<>()));
     }
 }

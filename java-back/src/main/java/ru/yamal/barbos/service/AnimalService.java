@@ -10,13 +10,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yamal.barbos.domain.model.AnimalEntity;
+import ru.yamal.barbos.domain.model.DiseaseEntity;
 import ru.yamal.barbos.domain.model.VaccinationEntity;
 import ru.yamal.barbos.domain.model.VaccineEntity;
 import ru.yamal.barbos.domain.repository.AnimalRepository;
+import ru.yamal.barbos.domain.repository.DiseaseRepository;
 import ru.yamal.barbos.domain.repository.VaccinationRepository;
 import ru.yamal.barbos.domain.repository.VaccineRepository;
 import ru.yamal.barbos.dto.AnimalDto;
 import ru.yamal.barbos.dto.DateDto;
+import ru.yamal.barbos.dto.DiseaseDto;
 import ru.yamal.barbos.dto.UpdateAnimalDto;
 import ru.yamal.barbos.exception.CustomException;
 
@@ -34,6 +37,7 @@ public class AnimalService {
     private final VaccinationRepository vaccinationRepository;
     private final EntityManagerFactory entityManagerFactory;
     private final ModelMapper modelMapper;
+    private final DiseaseRepository diseaseRepository;
 
     public List<AnimalDto> getAll() {
         return animalRepository.findAll().stream().map(animalEntity -> modelMapper.map(animalEntity, AnimalDto.class)).collect(Collectors.toList());
@@ -96,5 +100,12 @@ public class AnimalService {
         VaccineEntity vaccineEntity = vaccineRepository.findById(vaccineId).orElseThrow(() -> new CustomException("Not found", HttpStatus.NOT_FOUND));
         VaccinationEntity saved = vaccinationRepository.save(new VaccinationEntity(vaccineEntity, animalEntity, dateDto.getDate()));
         return modelMapper.map(saved.getAnimal(), AnimalDto.class);
+    }
+
+    public AnimalDto addDisease(Long id, DiseaseDto diseaseDto) {
+        AnimalEntity animalEntity = animalRepository.findById(id).orElseThrow(() -> new CustomException("Not found", HttpStatus.NOT_FOUND));
+        DiseaseEntity map = modelMapper.map(diseaseDto, DiseaseEntity.class);
+        map.setAnimal(animalEntity);
+        return modelMapper.map(diseaseRepository.save(map).getAnimal(), AnimalDto.class);
     }
 }

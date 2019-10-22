@@ -44,4 +44,6 @@ public class AnimalDto {
     private List<String> photoIds = new ArrayList<>();
 
     private Set<VaccinationDto> vaccinations = new HashSet<>();
+
+    private Set<DiseaseDto> diseases = new HashSet<>();
 }
