@@ -20,6 +20,9 @@ public class DiseaseEntity extends BaseEntity<Long> {
     private String description;
 
     @Column
+    private String receipt;
+
+    @Column
     private LocalDate localDate;
 
     @Enumerated(EnumType.STRING)

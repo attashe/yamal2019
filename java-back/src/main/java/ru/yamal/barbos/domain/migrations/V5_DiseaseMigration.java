@@ -26,6 +26,7 @@ public class V5_DiseaseMigration implements Migration {
         AnimalEntity animalEntity = animalRepository.findById(1L).orElseThrow(() -> new CustomException("Not found", HttpStatus.NOT_FOUND));
         diseaseRepository.save(new DiseaseEntity(
                 "Слишком энергичный из-за китикет",
+                "",
                 LocalDate.now(),
                 DiseaseStatus.ACTIVE,
                 animalEntity

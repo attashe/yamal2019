@@ -46,4 +46,6 @@ public class AnimalDto {
     private Set<VaccinationDto> vaccinations = new HashSet<>();
 
     private Set<DiseaseDto> diseases = new HashSet<>();
+
+    private OwnerDto ownerDto;
 }

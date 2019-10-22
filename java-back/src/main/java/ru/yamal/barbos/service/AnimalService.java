@@ -17,10 +17,7 @@ import ru.yamal.barbos.domain.repository.AnimalRepository;
 import ru.yamal.barbos.domain.repository.DiseaseRepository;
 import ru.yamal.barbos.domain.repository.VaccinationRepository;
 import ru.yamal.barbos.domain.repository.VaccineRepository;
-import ru.yamal.barbos.dto.AnimalDto;
-import ru.yamal.barbos.dto.DateDto;
-import ru.yamal.barbos.dto.DiseaseDto;
-import ru.yamal.barbos.dto.UpdateAnimalDto;
+import ru.yamal.barbos.dto.*;
 import ru.yamal.barbos.exception.CustomException;
 
 import javax.persistence.EntityManagerFactory;
@@ -107,5 +104,15 @@ public class AnimalService {
         DiseaseEntity map = modelMapper.map(diseaseDto, DiseaseEntity.class);
         map.setAnimal(animalEntity);
         return modelMapper.map(diseaseRepository.save(map).getAnimal(), AnimalDto.class);
+    }
+
+    public AnimalDto addOwner(Long id, OwnerDto ownerDto) {
+        AnimalEntity animalEntity = animalRepository.findById(id).orElseThrow(() -> new CustomException("Not found", HttpStatus.NOT_FOUND));
+        animalEntity.getOwner().setFio(ownerDto.getFio());
+        animalEntity.getOwner().setOrderDate(ownerDto.getOrderDate());
+        animalEntity.getOwner().setOrderNumber(ownerDto.getOrderNumber());
+        animalEntity.getOwner().setPhone(ownerDto.getPhone());
+        AnimalEntity saved = animalRepository.save(animalEntity);
+        return modelMapper.map(saved, AnimalDto.class);
     }
 }

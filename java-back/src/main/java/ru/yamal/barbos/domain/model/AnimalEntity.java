@@ -57,4 +57,8 @@ public class AnimalEntity extends BaseEntity<Long> {
 
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
     private Set<DiseaseEntity> diseases = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private OwnerEntity owner = new OwnerEntity();
 }

@@ -1,44 +1,44 @@
-#spring:
-#  datasource:
-#    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-#    username: sa
-#    password: null
-#  tomcat:
-#    max-wait: 20000
-#    max-active: 50
-#    max-idle: 20
-#    min-idle: 15
-#  jpa:
-#    hibernate:
-#      ddl-auto: create-drop
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.H2Dialect
-#        format_sql: true
-#        id:
-#          new_generator_mappings: false
-
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/yamal
-    username: postgres
-    password: root
-    driver-class-name: org.postgresql.Driver
-    hikari:
-      connection-timeout: 20000
-      maximum-pool-size: 5
-
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: null
+  tomcat:
+    max-wait: 20000
+    max-active: 50
+    max-idle: 20
+    min-idle: 15
   jpa:
-    show-sql: true
     hibernate:
       ddl-auto: create-drop
-      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        jdbc:
-          lob:
-            non_contextual_creation: true
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        id:
+          new_generator_mappings: false
+
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/yamal
+#    username: postgres
+#    password: root
+#    driver-class-name: org.postgresql.Driver
+#    hikari:
+#      connection-timeout: 20000
+#      maximum-pool-size: 5
+#
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create-drop
+#      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        jdbc:
+#          lob:
+#            non_contextual_creation: true
 
 server:
    port: 8080 # This is the default port anyway, but you can change it here
