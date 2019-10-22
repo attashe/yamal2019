@@ -36,7 +36,7 @@ public class UserController {
     @PostMapping("/signup")
     public String signup(@ApiParam("Signup User") @RequestBody UserRegistrationDto user, Principal principal) {
         if ((!user.getRoles().contains(Role.ROLE_ADMIN) && !user.getRoles().contains(Role.ROLE_HELPER))
-                || ((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getAuthorities().contains(Role.ROLE_ADMIN)) {
+                || (principal != null && ((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getAuthorities().contains(Role.ROLE_ADMIN))) {
             return userService.signup(user);
         }
         throw new CustomException("Not allowed", HttpStatus.NOT_ACCEPTABLE);
