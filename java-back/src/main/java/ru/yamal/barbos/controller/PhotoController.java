@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.yamal.barbos.dto.PhotoDto;
 import ru.yamal.barbos.service.PhotoStorageService;
 
-@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/photos")
@@ -23,12 +23,14 @@ public class PhotoController {
         return ResponseEntity.ok(resource);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<PhotoDto> uploadFile(@RequestParam("file") MultipartFile file) {
         String fileName = photoStorageService.storeFile(file);
         return ResponseEntity.ok(new PhotoDto(fileName));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/{photo:.+}")
     public ResponseEntity<String> deleteFile(@PathVariable("photo") String photo) {
         photoStorageService.delete(photo);

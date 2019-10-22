@@ -51,6 +51,7 @@ public class MainController {
     @GetMapping("/index")
     public String me(HttpServletRequest request, Model model) {
         User user = ftlAuthProvider.getUser(request);
+        model.addAttribute("jwt", CookieUtil.getValue(request, jwtTokenCookieName));
         model.addAttribute("userName", user.getUsername());
         return "index";
     }

@@ -17,6 +17,15 @@
     <link href="../css/simple-sidebar.css" rel="stylesheet">
     <link href="../css/main.css" rel="stylesheet">
 
+    <!-- Bootstrap core JavaScript -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../vendor/datatables/css/jquery.dataTables.min.css"/>
+
+    <script type="text/javascript" src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+
+
 </head>
 
 <body>
@@ -75,12 +84,26 @@
 
         <#--      CONTENT-->
         <div id="animals" class="container-fluid">
-            <h1 class="mt-4">Simple Sidebar</h1>
-            <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on
-                larger screens. When toggled using the button below, the menu will change.</p>
-            <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is
-                optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which
-                will toggle the menu when clicked.</p>
+            <table id="animalTable" class="display">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>gender</th>
+                    <th>animalType</th>
+                    <th>receivedDate</th>
+                    <th>birthDate</th>
+                    <th>animalStatus</th>
+                    <th>lastDeWormingDate</th>
+                    <th>sterilized</th>
+                    <th>sterilizationDate</th>
+                    <th>description</th>
+                    <th>ownerDto</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
 
         <div id="profile" class="container-fluid disabled-content">
@@ -110,9 +133,6 @@
 </div>
 <!-- /#wrapper -->
 
-<!-- Bootstrap core JavaScript -->
-<script src="../vendor/jquery/jquery.min.js"></script>
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Menu Toggle Script -->
 <script>
@@ -125,6 +145,39 @@
         $(".container-fluid").addClass("disabled-content");
         $("#" + id).removeClass("disabled-content");
     }
+
+    $(document).ready(function () {
+        $('#animalTable').dataTable({
+            "ajax": {
+                "url": '/animals',
+                "dataType": 'json',
+                "type": "GET",
+                "beforeSend": function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer ${jwt}");
+                }
+            },
+            "data": [
+                {
+
+                }
+            ]
+            // "columns": [
+            //     { "data": "id" },
+            //     { "data": "name" },
+            //     { "data": "gender" },
+            //     { "data": "animalType" },
+            //     { "data": "receivedDate" },
+            //     { "data": "birthDate" },
+            //     { "data": "animalStatus" },
+            //     { "data": "lastDeWormingDate" },
+            //     { "data": "sterilized" },
+            //     { "data": "sterilizationDate" },
+            //     { "data": "description" },
+            //     { "data": "ownerDto" }
+            // ]
+        });
+    });
+
 </script>
 
 </body>
