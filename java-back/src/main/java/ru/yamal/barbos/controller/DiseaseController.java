@@ -2,10 +2,7 @@ package ru.yamal.barbos.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.yamal.barbos.dto.DiseaseDto;
 import ru.yamal.barbos.service.DiseaseService;
 
@@ -18,7 +15,8 @@ public class DiseaseController {
     private final DiseaseService diseaseService;
 
     @PutMapping("/{id}")
-    public DiseaseDto updateDiseaseStatus(@RequestBody DiseaseDto diseaseDto) {
+    public DiseaseDto updateDiseaseStatus(@PathVariable("id") Long id, @RequestBody DiseaseDto diseaseDto) {
+        diseaseDto.setId(id);
         return diseaseService.updateDisease(diseaseDto);
     }
 }
