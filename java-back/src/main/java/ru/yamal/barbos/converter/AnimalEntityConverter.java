@@ -1,9 +1,10 @@
 package ru.yamal.barbos.converter;
 
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yamal.barbos.domain.model.AnimalEntity;
@@ -12,12 +13,16 @@ import ru.yamal.barbos.dto.VaccinationDto;
 
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Transactional
 @Component
 public class AnimalEntityConverter implements Converter<AnimalEntity, AnimalDto> {
 
     private final ModelMapper modelMapper;
+
+    @Autowired
+    public AnimalEntityConverter(@Lazy ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public AnimalDto convert(MappingContext<AnimalEntity, AnimalDto> context) {
