@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yamal.barbos.domain.model.AnimalEntity;
 import ru.yamal.barbos.domain.repository.AnimalRepository;
 import ru.yamal.barbos.dto.AnimalDto;
+import ru.yamal.barbos.dto.SterilizationDto;
 import ru.yamal.barbos.dto.UpdateAnimalDto;
 import ru.yamal.barbos.exception.CustomException;
 
@@ -72,6 +73,14 @@ public class AnimalService {
     public AnimalDto removePhoto(Long id, String photo) {
         AnimalEntity animalEntity = animalRepository.findById(id).orElseThrow(() -> new CustomException("Not found", HttpStatus.NOT_FOUND));
         animalEntity.getPhotoIds().remove(photo);
+        AnimalEntity saved = animalRepository.save(animalEntity);
+        return modelMapper.map(saved, AnimalDto.class);
+    }
+
+    public AnimalDto sterilize(Long id, SterilizationDto sterilizationDto) {
+        AnimalEntity animalEntity = animalRepository.findById(id).orElseThrow(() -> new CustomException("Not found", HttpStatus.NOT_FOUND));
+        animalEntity.setSterilized(true);
+        animalEntity.setSterilizationDate(sterilizationDto.getSterilizationDate());
         AnimalEntity saved = animalRepository.save(animalEntity);
         return modelMapper.map(saved, AnimalDto.class);
     }

@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.yamal.barbos.dto.AnimalDto;
+import ru.yamal.barbos.dto.SterilizationDto;
 import ru.yamal.barbos.dto.UpdateAnimalDto;
 import ru.yamal.barbos.service.AnimalService;
 import ru.yamal.barbos.service.PhotoStorageService;
@@ -41,6 +42,11 @@ public class AnimalController {
         return animalService.update(animalDto);
     }
 
+    @PutMapping("/{id}/sterilize")
+    public AnimalDto sterilize(@PathVariable("id") Long id, @RequestBody SterilizationDto sterilizationDto) {
+        return animalService.sterilize(id, sterilizationDto);
+    }
+
     @PostMapping("/{id}/photo")
     public AnimalDto addPhoto(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) {
         String fileName = photoStorageService.storeFile(file);
@@ -50,6 +56,6 @@ public class AnimalController {
     @DeleteMapping("/{id}/photo/{photo:.+}}")
     public AnimalDto removePhoto(@PathVariable("id") Long id, @PathVariable("photo") String photo) {
         photoStorageService.delete(photo);
-        return animalService.addPhoto(id, photo);
+        return animalService.removePhoto(id, photo);
     }
 }
