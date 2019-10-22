@@ -1,7 +1,6 @@
 package ru.yamal.barbos.configuration.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -33,9 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Entry points
         http.cors().and()
                 .authorizeRequests()
+                .antMatchers("/public/**", "/resources/**", "/resources/public/**", "/static/**", "/vendor/**").permitAll()
                 .antMatchers("/users/signin").permitAll()
                 .antMatchers("/users/signup").permitAll()
                 .antMatchers("/web/**").permitAll()
+                .antMatchers("/css/**").permitAll()
                 .antMatchers("/h2-console/**/**").permitAll()
                 // Disallow everything else..
                 .anyRequest().authenticated();

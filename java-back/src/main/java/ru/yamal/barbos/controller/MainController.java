@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 // TODO temporary created for hackathon. In production it is preferable to use vue.js
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/web/")
+@RequestMapping("/web")
 public class MainController {
 
     private static final String jwtTokenCookieName = "JWT-TOKEN";
@@ -26,7 +26,7 @@ public class MainController {
     private final UserService userService;
     private final FtlAuthProvider ftlAuthProvider;
 
-    @GetMapping
+    @GetMapping({"", "/"})
     public String index() {
         return "login";
     }
@@ -37,21 +37,21 @@ public class MainController {
         return "redirect:/web/";
     }
 
-    @PostMapping(value = "login")
+    @PostMapping(value = "/login")
     public String login(HttpServletResponse httpServletResponse, String phoneNumber, String password, String redirect, Model model) {
         try {
             String token = userService.signin(phoneNumber, password);
             CookieUtil.create(httpServletResponse, jwtTokenCookieName, token, false, -1, "localhost");
-            return "redirect:/web/me";
+            return "redirect:/web/index";
         } catch (CustomException e) {
             return "login";
         }
     }
 
-    @GetMapping("me")
+    @GetMapping("/index")
     public String me(HttpServletRequest request, Model model) {
         User user = ftlAuthProvider.getUser(request);
         model.addAttribute("userName", user.getUsername());
-        return "me";
+        return "index";
     }
 }
