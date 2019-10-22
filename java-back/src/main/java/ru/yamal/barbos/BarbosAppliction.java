@@ -43,6 +43,12 @@ public class BarbosAppliction implements CommandLineRunner {
         converterList.forEach(modelMapper::addConverter);
         objectMapper.registerModule(new JavaTimeModule());
         dataBaseMigrations.stream().sorted(Comparator.comparing(m -> m.getClass().getName())).forEach(Migration::migrate);
+
+//        Properties hibernateProperties = new Properties();
+//        hibernateProperties.setProperty(
+//                "org.hibernate.envers.audit_table_suffix", "_AUDIT_LOG");
+//        sessionFactory.setHibernateProperties(hibernateProperties);
+
     }
 
 }
